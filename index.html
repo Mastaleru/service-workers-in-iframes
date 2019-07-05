@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+
+<iframe src="bootIframe/app1/index.html?app1" sandbox="allow-scripts allow-same-origin"></iframe>
+<hr/>
+<iframe src="bootIframe/app2/index.html?app2" sandbox="allow-scripts allow-same-origin" ></iframe>
+
+<hr/>
+
+
+<button id="add_iframe">Add new iframe</button>
+<script>
+    let appIndex = 3;
+
+    let addIframe = function(){
+      let newIframe = document.createElement("iframe");
+      newIframe.setAttribute("sandbox","allow-scripts allow-same-origin");
+      newIframe.src="bootIframe/app"+appIndex+"/index.html?app"+appIndex;
+      document.body.appendChild(newIframe);
+      appIndex++;
+    };
+    document.getElementById("add_iframe").addEventListener("click",addIframe);
+
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('root-sw.js')
+            .then((registration) => {
+                    console.log(registration);
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+
+                },
+                function (err) { // registration failed :(
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+
+    });
+
+</script>
+</body>
+</html>

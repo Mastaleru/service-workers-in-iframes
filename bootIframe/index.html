@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src ="./utils.js"></script>
+<body>
+<p id="identification">Iframe 1</p>
+<script type="text/javascript">
+
+
+    let search = window.location.search;
+    let appName = search.substring(1);
+    document.getElementById("identification").innerText="#"+appName;
+    let renamePath = "/bootIframe/"+appName+"/rename";
+    let extractPath = "/bootIframe/"+appName+"/extract"
+
+
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+            .then((registration) => {
+                    console.log(registration);
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+
+                },
+                function (err) { // registration failed :(
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+
+    });
+
+
+    setTimeout(()=>{
+        makeRenameRequest(renamePath,appName);
+        setTimeout(()=>makeRequest(extractPath),1000);
+        setTimeout(()=>makeRequest(extractPath),2000);
+        setTimeout(()=>makeRequest(extractPath),3000);
+    },500)
+
+
+
+</script>
+</body>
+</html>
