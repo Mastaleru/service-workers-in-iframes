@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<span id="version"></span>
+<script>
+
+    let iframeCodeVersion = "iframeCode-v20";
+
+    let makeRequest = function (requestPath) {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", requestPath, true);
+
+        xhr.onload = function () {
+
+            if (xhr.readyState === 4 && xhr.status == "200") {
+                console.log(xhr.responseText);
+
+            }
+        };
+        xhr.send();
+    }
+
+    let makeRenameRequest = function (requestPath, appName) {
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", requestPath, true);
+
+        xhr.onload = function () {
+
+            if (xhr.readyState === 4 && xhr.status == "200") {
+                console.log(xhr.responseText);
+
+            }
+        };
+        xhr.send(JSON.stringify({name:appName}));
+    };
+
+    let search = window.location.search;
+    let appName = search.substring(1);
+    document.getElementById("version").innerText=iframeCodeVersion + " : "+ appName;
+    console.log("Version control:",iframeCodeVersion)
+    let renamePath = "/"+appName+"/rename";
+    let extractPath = "/"+appName+"/extract";
+    var registrationScopes = [];
+
+    navigator.serviceWorker.getRegistrations().then(registrations => {
+        registrationScopes = registrations.map(registration=>{
+            return registration.scope;
+        });
+        console.log(registrationScopes);
+    });
+
+
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('http://localhost:4000/app1/sw.js', {scope:"/"+appName+"/"})
+            .then((registration) => {
+                    console.log(registration);
+                    console.log(iframeCodeVersion,':ServiceWorker registration successful with scope: ', registration.scope);
+                    if (registrationScopes.indexOf(registration.scope) == -1) {
+                        //window.location.reload();
+                    }
+
+                },
+                function (err) { // registration failed :(
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+
+    });
+
+
+    setTimeout(()=>{
+        makeRenameRequest(renamePath,appName);
+        setTimeout(()=>makeRequest(extractPath),1000);
+        setTimeout(()=>makeRequest(extractPath),2000);
+    },5000);
+
+</script>
+</body>
+</html>

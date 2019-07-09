@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+
+<!--<iframe src="bootIframe/app1/index.html?app1" sandbox="allow-scripts allow-same-origin"></iframe>
+<hr/>
+<iframe src="bootIframe/app2/index.html?app2" sandbox="allow-scripts allow-same-origin"></iframe>-->
+<!--<iframe src="bootIframe/app6/index.html?app6" sandbox="allow-scripts allow-same-origin"></iframe>
+<iframe src="bootIframe/app1/index.html?app1" sandbox="allow-scripts allow-same-origin"></iframe>
+<iframe src="bootIframe/app2/index.html?app2" sandbox="allow-scripts allow-same-origin"></iframe>
+<iframe src="bootIframe/app3/index.html?app3" sandbox="allow-scripts allow-same-origin"></iframe>
+<iframe src="bootIframe/app4/index.html?app4" sandbox="allow-scripts allow-same-origin"></iframe>
+<iframe src="bootIframe/app20/index.html?app20" sandbox="allow-scripts allow-same-origin"></iframe>-->
+
+<!--<iframe src="bootIframe/app3/index.html?app3" sandbox="allow-scripts allow-same-origin"></iframe>-->
+
+<hr/>
+
+
+<button id="add_iframe">Add new iframe</button>
+<script>
+    let appIndex = 1;
+
+    let addIframe = function(){
+      let newIframe = document.createElement("iframe");
+      newIframe.setAttribute("sandbox","allow-scripts allow-same-origin");
+      newIframe.src="app1/appIndex.html?app"+appIndex;
+      document.body.appendChild(newIframe);
+      appIndex++;
+    };
+    document.getElementById("add_iframe").addEventListener("click",addIframe);
+
+/*    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('root-sw.js')
+            .then((registration) => {
+                    console.log(registration);
+                    console.log('Root:ServiceWorker registration successful with scope: ', registration.scope);
+
+                },
+                function (err) { // registration failed :(
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+
+    });*/
+
+
+</script>
+</body>
+</html>
